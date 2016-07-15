@@ -1,4 +1,4 @@
-package com.socks.library.klog;
+package com.baiiu.library.klog;
 
 import android.util.Log;
 

@@ -1,10 +1,9 @@
-package com.socks.library.klog;
+package com.baiiu.library.klog;
 
 import android.util.Log;
 
-
-import com.socks.library.KLog;
-import com.socks.library.Util;
+import com.baiiu.library.LogUtil;
+import com.baiiu.library.Util;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -27,11 +26,11 @@ public class XmlLog {
             xml = XmlLog.formatXML(xml);
             xml = headString + "\n" + xml;
         } else {
-            xml = headString + KLog.NULL_TIPS;
+            xml = headString + LogUtil.NULL_TIPS;
         }
 
         Util.printLine(tag, true);
-        String[] lines = xml.split(KLog.LINE_SEPARATOR);
+        String[] lines = xml.split(LogUtil.LINE_SEPARATOR);
         for (String line : lines) {
             if (!Util.isEmpty(line)) {
                 Log.d(tag, "║ " + line);

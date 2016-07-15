@@ -88,13 +88,6 @@
                 android:layout_height="wrap_content"
                 android:onClick="logWithXml"
                 android:text="Log.xml(XML)" />
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="logWithXmlFromNet"
-                android:text="Log.xml(FROM NET)" />
-
         </LinearLayout>
     </ScrollView>
 

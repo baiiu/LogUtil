@@ -1,4 +1,4 @@
-package com.socks.library;
+package com.baiiu.library;
 
 import android.text.TextUtils;
 import android.util.Log;

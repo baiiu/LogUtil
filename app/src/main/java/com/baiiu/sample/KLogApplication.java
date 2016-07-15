@@ -1,8 +1,9 @@
-package com.socks.sample;
+package com.baiiu.sample;
 
 import android.app.Application;
 
-import com.socks.library.KLog;
+import com.baiiu.library.LogUtil;
+
 
 /**
  * Created by zhaokaiqiang on 15/11/14.
@@ -12,7 +13,6 @@ public class KLogApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        KLog.init(BuildConfig.LOG_DEBUG);
-        KLog.init(BuildConfig.LOG_DEBUG, "Kai");
+        LogUtil.init(BuildConfig.DEBUG);
     }
 }

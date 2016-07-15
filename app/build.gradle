@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.socks.klog.sample"
+        applicationId "com.baiiu.sample"
         minSdkVersion 8
         targetSdkVersion 23
         versionCode 1
@@ -14,13 +14,11 @@ android {
     buildTypes {
 
         debug {
-            buildConfigField "boolean", "LOG_DEBUG", "true"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         release {
-            buildConfigField "boolean", "LOG_DEBUG", "false"
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -30,8 +28,5 @@ android {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'cz.msebera.android:httpclient:4.3.6'
-    compile 'com.github.zhaokaiqiang.klog:library:1.5.0'
-//    compile project(':library')
+    compile project(':library')
 }

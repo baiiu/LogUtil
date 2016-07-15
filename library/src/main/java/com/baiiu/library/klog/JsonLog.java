@@ -1,9 +1,9 @@
-package com.socks.library.klog;
+package com.baiiu.library.klog;
 
 import android.util.Log;
 
-import com.socks.library.KLog;
-import com.socks.library.Util;
+import com.baiiu.library.LogUtil;
+import com.baiiu.library.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,10 +21,10 @@ public class JsonLog {
         try {
             if (msg.startsWith("{")) {
                 JSONObject jsonObject = new JSONObject(msg);
-                message = jsonObject.toString(KLog.JSON_INDENT);
+                message = jsonObject.toString(LogUtil.JSON_INDENT);
             } else if (msg.startsWith("[")) {
                 JSONArray jsonArray = new JSONArray(msg);
-                message = jsonArray.toString(KLog.JSON_INDENT);
+                message = jsonArray.toString(LogUtil.JSON_INDENT);
             } else {
                 message = msg;
             }
@@ -33,8 +33,8 @@ public class JsonLog {
         }
 
         Util.printLine(tag, true);
-        message = headString + KLog.LINE_SEPARATOR + message;
-        String[] lines = message.split(KLog.LINE_SEPARATOR);
+        message = headString + LogUtil.LINE_SEPARATOR + message;
+        String[] lines = message.split(LogUtil.LINE_SEPARATOR);
         for (String line : lines) {
             Log.d(tag, "║ " + line);
         }

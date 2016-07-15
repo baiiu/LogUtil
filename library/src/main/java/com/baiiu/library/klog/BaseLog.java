@@ -1,8 +1,9 @@
-package com.socks.library.klog;
+package com.baiiu.library.klog;
 
 import android.util.Log;
 
-import com.socks.library.KLog;
+import com.baiiu.library.LogUtil;
+
 
 /**
  * Created by zhaokaiqiang on 15/11/18.
@@ -29,22 +30,22 @@ public class BaseLog {
 
     private static void printSub(int type, String tag, String sub) {
         switch (type) {
-            case KLog.V:
+            case LogUtil.V:
                 Log.v(tag, sub);
                 break;
-            case KLog.D:
+            case LogUtil.D:
                 Log.d(tag, sub);
                 break;
-            case KLog.I:
+            case LogUtil.I:
                 Log.i(tag, sub);
                 break;
-            case KLog.W:
+            case LogUtil.W:
                 Log.w(tag, sub);
                 break;
-            case KLog.E:
+            case LogUtil.E:
                 Log.e(tag, sub);
                 break;
-            case KLog.A:
+            case LogUtil.A:
                 Log.wtf(tag, sub);
                 break;
         }

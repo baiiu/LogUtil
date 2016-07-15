@@ -1,21 +1,22 @@
-package com.socks.library;
+package com.baiiu.library;
 
 
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 
-import com.socks.library.klog.BaseLog;
-import com.socks.library.klog.FileLog;
-import com.socks.library.klog.JsonLog;
-import com.socks.library.klog.XmlLog;
+import com.baiiu.library.klog.BaseLog;
+import com.baiiu.library.klog.FileLog;
+import com.baiiu.library.klog.JsonLog;
+import com.baiiu.library.klog.XmlLog;
 
 import java.io.File;
 
 /**
  * This is a Log tool，with this you can the following
  * <ol>
- * <li>use KLog.d(),you could print whether the method execute,and the default tag is current class's name</li>
- * <li>use KLog.d(msg),you could print log as before,and you could location the method with a click in Android Studio Logcat</li>
+ * <li>use KLog.d(),you could print whether the method execute,and the default tag is current class's
+ * name</li>
+ * <li>use KLog.d(msg),you could print log as before,and you could location the method with a click in
+ * Android Studio Logcat</li>
  * <li>use KLog.json(),you could print json string with well format automatic</li>
  * </ol>
  *
@@ -27,33 +28,30 @@ import java.io.File;
  *         15/12/11 扩展功能，增加对无限长字符串支持
  *         16/6/13  扩展功能，添加对自定义全局Tag的支持
  */
-public class KLog {
-
+public class LogUtil {
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
     public static final String NULL_TIPS = "Log with null object";
 
-    private static final String DEFAULT_MESSAGE = "execute";
+    private static final String DEFAULT_MESSAGE = "test here";
     private static final String PARAM = "Param";
     private static final String NULL = "null";
-    private static final String TAG_DEFAULT = "KLog";
+    private static final String TAG_DEFAULT = "mLogUtil";
     private static final String SUFFIX = ".java";
 
     public static final int JSON_INDENT = 4;
-    public static final int V = 0x1;
 
+    public static final int V = 0x1;
     public static final int D = 0x2;
     public static final int I = 0x3;
     public static final int W = 0x4;
     public static final int E = 0x5;
     public static final int A = 0x6;
-
     private static final int JSON = 0x7;
     private static final int XML = 0x8;
 
     private static final int STACK_TRACE_INDEX = 5;
 
-    private static String mGlobalTag;
-    private static boolean mIsGlobalTagEmpty = true;
+    private static String mGlobalTag = TAG_DEFAULT;
     private static boolean IS_SHOW_LOG = true;
 
     public static void init(boolean isShowLog) {
@@ -63,7 +61,6 @@ public class KLog {
     public static void init(boolean isShowLog, @Nullable String tag) {
         IS_SHOW_LOG = isShowLog;
         mGlobalTag = tag;
-        mIsGlobalTagEmpty = TextUtils.isEmpty(mGlobalTag);
     }
 
     public static void v() {
@@ -210,9 +207,14 @@ public class KLog {
         FileLog.printFile(tag, targetDirectory, fileName, headString, msg);
     }
 
+    /**
+     * @param tagStr  TAG标签
+     * @param objects 要打印的值
+     */
     private static String[] wrapperContent(String tagStr, Object... objects) {
 
-        StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+        StackTraceElement[] stackTrace = Thread.currentThread()
+                .getStackTrace();
 
         StackTraceElement targetElement = stackTrace[STACK_TRACE_INDEX];
         String className = targetElement.getClassName();
@@ -234,14 +236,7 @@ public class KLog {
 
         String methodNameShort = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
 
-        String tag = (tagStr == null ? className : tagStr);
-
-        if (mIsGlobalTagEmpty && TextUtils.isEmpty(tag)) {
-            tag = TAG_DEFAULT;
-        } else if (!mIsGlobalTagEmpty) {
-            tag = mGlobalTag;
-        }
-
+        String tag = (tagStr == null ? mGlobalTag : tagStr);
         String msg = (objects == null) ? NULL_TIPS : getObjectsString(objects);
         String headString = "[ (" + className + ":" + lineNumber + ")#" + methodNameShort + " ] ";
 
@@ -256,9 +251,21 @@ public class KLog {
             for (int i = 0; i < objects.length; i++) {
                 Object object = objects[i];
                 if (object == null) {
-                    stringBuilder.append(PARAM).append("[").append(i).append("]").append(" = ").append(NULL).append("\n");
+                    stringBuilder.append(PARAM)
+                            .append("[")
+                            .append(i)
+                            .append("]")
+                            .append(" = ")
+                            .append(NULL)
+                            .append("\n");
                 } else {
-                    stringBuilder.append(PARAM).append("[").append(i).append("]").append(" = ").append(object.toString()).append("\n");
+                    stringBuilder.append(PARAM)
+                            .append("[")
+                            .append(i)
+                            .append("]")
+                            .append(" = ")
+                            .append(object.toString())
+                            .append("\n");
                 }
             }
             return stringBuilder.toString();
