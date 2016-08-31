@@ -1,13 +1,12 @@
 package com.baiiu.library;
 
 
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
-
 import com.baiiu.library.klog.BaseLog;
 import com.baiiu.library.klog.FileLog;
 import com.baiiu.library.klog.JsonLog;
 import com.baiiu.library.klog.XmlLog;
-
 import java.io.File;
 
 /**
@@ -45,13 +44,16 @@ public class LogUtil {
     public static final int I = 0x3;
     public static final int W = 0x4;
     public static final int E = 0x5;
-    public static final int A = 0x6;
-    private static final int JSON = 0x7;
-    private static final int XML = 0x8;
+    public static final int WTF = 0x6;
+    public static final int JSON = 0x7;
+    public static final int XML = 0x8;
+
+    @IntDef({ V, D, I, W, E, WTF, JSON, XML })
+    public @interface LogType {}
 
     private static final int STACK_TRACE_INDEX = 5;
 
-    private static String mGlobalTag = TAG_DEFAULT;
+    public static String mGlobalTag = TAG_DEFAULT;
     private static boolean IS_SHOW_LOG = true;
 
     public static void init(boolean isShowLog) {
@@ -124,15 +126,15 @@ public class LogUtil {
     }
 
     public static void a() {
-        printLog(A, null, DEFAULT_MESSAGE);
+        printLog(WTF, null, DEFAULT_MESSAGE);
     }
 
     public static void a(Object msg) {
-        printLog(A, null, msg);
+        printLog(WTF, null, msg);
     }
 
     public static void a(String tag, Object... objects) {
-        printLog(A, tag, objects);
+        printLog(WTF, tag, objects);
     }
 
     public static void json(String jsonFormat) {
@@ -163,8 +165,12 @@ public class LogUtil {
         printFile(tag, targetDirectory, fileName, msg);
     }
 
-    private static void printLog(int type, String tagStr, Object... objects) {
+    public static void printLog(@LogType int type, String tagStr, Object... objects) {
+        printLog(true, type, tagStr, objects);
+    }
 
+    public static void printLog(boolean showHeadString, @LogType int type, String tagStr,
+            Object... objects) {
         if (!IS_SHOW_LOG) {
             return;
         }
@@ -174,13 +180,17 @@ public class LogUtil {
         String msg = contents[1];
         String headString = contents[2];
 
+        if (!showHeadString) {
+            headString = "";
+        }
+
         switch (type) {
             case V:
             case D:
             case I:
             case W:
             case E:
-            case A:
+            case WTF:
                 BaseLog.printDefault(type, tag, headString + msg);
                 break;
             case JSON:
@@ -208,7 +218,7 @@ public class LogUtil {
     }
 
     /**
-     * @param tagStr  TAG标签
+     * @param tagStr TAG标签
      * @param objects 要打印的值
      */
     private static String[] wrapperContent(String tagStr, Object... objects) {
@@ -234,13 +244,14 @@ public class LogUtil {
             lineNumber = 0;
         }
 
-        String methodNameShort = methodName.substring(0, 1).toUpperCase() + methodName.substring(1);
+        String methodNameShort = methodName.substring(0, 1)
+                .toUpperCase() + methodName.substring(1);
 
         String tag = (tagStr == null ? mGlobalTag : tagStr);
         String msg = (objects == null) ? NULL_TIPS : getObjectsString(objects);
         String headString = "[ (" + className + ":" + lineNumber + ")#" + methodNameShort + " ] ";
 
-        return new String[]{tag, msg, headString};
+        return new String[] { tag, msg, headString };
     }
 
     private static String getObjectsString(Object... objects) {
@@ -274,5 +285,4 @@ public class LogUtil {
             return object == null ? NULL : object.toString();
         }
     }
-
 }

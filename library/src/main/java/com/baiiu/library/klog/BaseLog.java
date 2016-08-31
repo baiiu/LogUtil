@@ -45,7 +45,7 @@ public class BaseLog {
             case LogUtil.E:
                 Log.e(tag, sub);
                 break;
-            case LogUtil.A:
+            case LogUtil.WTF:
                 Log.wtf(tag, sub);
                 break;
         }
