@@ -18,15 +18,19 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String LOG_MSG = "LogUtil is a so cool Log Tool!";
     private static final String TAG = "CustomTag";
-    private static String XML = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><!--  Copyright w3school.com.cn --><note><to>George</to><from>John</from><heading>Reminder</heading><body>Don't forget the meeting!</body></note>";
+    private static String XML =
+            "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><!--  Copyright w3school.com.cn --><note><to>George</to><from>John</from><heading>Reminder</heading><body>Don't forget the meeting!</body></note>";
     private static String JSON;
     private static String JSON_LONG;
     private static String STRING_LONG;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(android.R.id.content, new RetrofitRxFragment(), RetrofitRxFragment.class.getName())
+                .commitAllowingStateLoss();
 
         initView();
         initData();
@@ -126,14 +130,12 @@ public class MainActivity extends AppCompatActivity {
     // MENU
     ///////////////////////////////////////////////////////////////////////////
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_about, menu);
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
             case R.id.action_github:

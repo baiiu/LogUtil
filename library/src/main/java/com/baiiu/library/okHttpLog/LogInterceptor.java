@@ -7,10 +7,16 @@ import com.baiiu.library.LogUtil;
  * date: on 16/8/31 19:40
  * description:
  */
-public enum LogInterceptor implements HttpLoggingInterceptorM.Logger {
-    INSTANCE;
+public class LogInterceptor implements HttpLoggingInterceptorM.Logger {
 
-    public static final String INTERCEPTOR_TAG_STR = "okhttp";
+    public static String INTERCEPTOR_TAG_STR = "OkHttp";
+
+    public LogInterceptor() {
+    }
+
+    public LogInterceptor(String tag) {
+        INTERCEPTOR_TAG_STR = tag;
+    }
 
     @Override public void log(String message, @LogUtil.LogType int type) {
         LogUtil.printLog(false, type, INTERCEPTOR_TAG_STR, message);
