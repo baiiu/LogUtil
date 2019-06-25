@@ -55,13 +55,9 @@ public class RetrofitRxFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         //添加HttpLoggingInterceptor
-        HttpLoggingInterceptorM interceptor = new HttpLoggingInterceptorM(new LogInterceptor());
-        interceptor.setLevel(HttpLoggingInterceptorM.Level.BODY);
-        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(interceptor)
-                .build();
 
         //创建
-        Retrofit retrofit = new Retrofit.Builder().client(okHttpClient)
+        Retrofit retrofit = new Retrofit.Builder().client(OkHttpFactory.INSTANCE.getOkHttpClient())
                 .baseUrl(GITHUB_BASEURL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

@@ -109,7 +109,7 @@ public final class HttpLoggingInterceptorM implements Interceptor {
 
     private final Logger logger;
 
-    private volatile Level level = Level.NONE;
+    private volatile Level level = Level.BODY;
 
     /** Change the level at which this interceptor logs. */
     public HttpLoggingInterceptorM setLevel(Level level) {
