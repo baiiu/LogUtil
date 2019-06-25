@@ -11,6 +11,22 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        debug {
+        }
+
+        release {
+            storeFile file("Untitled")
+            storePassword "123456"
+            keyAlias "logutl"
+            keyPassword "123456"
+            v2SigningEnabled true   // android 5.0-8.0，必须用V2，否则会有安全问题
+            v1SigningEnabled true
+
+        }
+    }
+
     buildTypes {
 
         debug {
@@ -20,6 +36,8 @@ android {
 
         release {
             minifyEnabled true
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

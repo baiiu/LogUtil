@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.baiiu.library.LogUtil;
 import com.baiiu.library.okHttpLog.HttpLoggingInterceptorM;
 import com.baiiu.library.okHttpLog.LogInterceptor;
@@ -13,7 +14,9 @@ import com.baiiu.sample.retrofit.GankIODay;
 import com.baiiu.sample.retrofit.GitHubAPI;
 import com.baiiu.sample.retrofit.Repo;
 import com.baiiu.sample.retrofit.User;
+
 import java.util.List;
+
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,16 +38,20 @@ public class RetrofitRxFragment extends Fragment {
     private static final String GITHUB_BASEURL = "https://api.github.com/";
     private GitHubAPI gitHubAPI;
 
-    @Override public void onCreate(@Nullable Bundle savedInstanceState) {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    @Nullable @Override public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_log, container, false);
     }
 
-    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         //添加HttpLoggingInterceptor
@@ -66,27 +73,34 @@ public class RetrofitRxFragment extends Fragment {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<User>() {
-                    @Override public void onCompleted() {
+                    @Override
+                    public void onCompleted() {
                         LogUtil.d("onComplete");
                     }
 
-                    @Override public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
                         LogUtil.e(e.toString());
                     }
 
-                    @Override public void onNext(User user) {
+                    @Override
+                    public void onNext(User user) {
                         LogUtil.d(user.toString());
                     }
                 });
 
         gitHubAPI.listRepos("baiiu")
                 .enqueue(new Callback<List<Repo>>() {
-                    @Override public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
+                    @Override
+                    public void onResponse(Call<List<Repo>> call, Response<List<Repo>> response) {
                         List<Repo> body = response.body();
-                        LogUtil.d(body.toString());
+                        if (body != null) {
+                            LogUtil.d(body.toString());
+                        }
                     }
 
-                    @Override public void onFailure(Call<List<Repo>> call, Throwable t) {
+                    @Override
+                    public void onFailure(Call<List<Repo>> call, Throwable t) {
                         LogUtil.d(t.toString());
                     }
                 });
@@ -98,10 +112,12 @@ public class RetrofitRxFragment extends Fragment {
         String s = "http://gank.io/api/day/2015/08/07";
         gitHubAPI.getOneDay(s)
                 .enqueue(new Callback<GankIODay>() {
-                    @Override public void onResponse(Call<GankIODay> call, Response<GankIODay> response) {
+                    @Override
+                    public void onResponse(Call<GankIODay> call, Response<GankIODay> response) {
                     }
 
-                    @Override public void onFailure(Call<GankIODay> call, Throwable t) {
+                    @Override
+                    public void onFailure(Call<GankIODay> call, Throwable t) {
                     }
                 });
     }
